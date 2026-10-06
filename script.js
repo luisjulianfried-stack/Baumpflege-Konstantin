@@ -9,9 +9,10 @@ document.querySelectorAll('.ba').forEach(ba=>{
   const set=v=>{v=Math.max(0,Math.min(100,v));ba.style.setProperty('--pos',v+'%');handle.setAttribute('aria-valuenow',Math.round(v));ba._pos=v};
   ba._set=set;ba._pos=50;
   const fromEvent=e=>{const r=ba.getBoundingClientRect();set((e.clientX-r.left)/r.width*100)};
-  ba.addEventListener('pointerdown',e=>{cancelAnimationFrame(ba._anim);ba._hinted=true;ba.setPointerCapture(e.pointerId);ba.classList.add('is-dragging');fromEvent(e)});
-  ba.addEventListener('pointermove',e=>{if(ba.classList.contains('is-dragging'))fromEvent(e)});
-  ['pointerup','pointercancel'].forEach(t=>ba.addEventListener(t,()=>ba.classList.remove('is-dragging')));
+  // Nur der Regler verschiebt die Trennlinie, so bleibt das Foto frei zum Wischen
+  handle.addEventListener('pointerdown',e=>{cancelAnimationFrame(ba._anim);ba._hinted=true;handle.setPointerCapture(e.pointerId);ba.classList.add('is-dragging');e.stopPropagation()});
+  handle.addEventListener('pointermove',e=>{if(ba.classList.contains('is-dragging'))fromEvent(e)});
+  ['pointerup','pointercancel'].forEach(t=>handle.addEventListener(t,()=>ba.classList.remove('is-dragging')));
   handle.addEventListener('keydown',e=>{const step=e.shiftKey?10:2;if(e.key==='ArrowLeft'){set(ba._pos-step);e.preventDefault()}if(e.key==='ArrowRight'){set(ba._pos+step);e.preventDefault()}});
 });
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -36,12 +37,14 @@ document.querySelectorAll('.ba-carousel').forEach(c=>{
     if(c._visible)hint(slides[i].querySelector('.ba'));};
   prev.addEventListener('click',()=>go(active-1));next.addEventListener('click',()=>go(active+1));
   let raf;track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(update)},{passive:true});
-  addEventListener('resize',()=>{active=-1;update()});
+  // Rechts genug Platz lassen, damit auch die letzten Slides ganz nach links rasten
+  const fit=()=>{const pl=parseFloat(getComputedStyle(track).paddingLeft);track.style.paddingRight=Math.max(pl,track.clientWidth-slides[0].offsetWidth-pl)+'px'};
+  fit();addEventListener('resize',()=>{fit();active=-1;update()});
   c.addEventListener('keydown',e=>{if(e.target.classList.contains('ba-handle'))return;if(e.key==='ArrowRight')go(active+1);if(e.key==='ArrowLeft')go(active-1)});
-  // Wischen mit der Maus über die Bildunterschrift (auf Touch wischt der Browser nativ)
-  let sx=null,sl=0;track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.ba'))return;sx=e.clientX;sl=track.scrollLeft;track.style.scrollSnapType='none';track.style.scrollBehavior='auto'});
+  // Wischen mit der Maus (auf Touch wischt der Browser nativ)
+  let sx=null,sl=0,si=0;track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.ba-handle'))return;e.preventDefault();sx=e.clientX;sl=track.scrollLeft;si=active;track.style.scrollSnapType='none';track.style.scrollBehavior='auto'});
   addEventListener('pointermove',e=>{if(sx!==null)track.scrollLeft=sl-(e.clientX-sx)});
-  addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;track.style.scrollSnapType='';track.style.scrollBehavior='';go(active+(dx<-40?1:dx>40?-1:0))});
+  addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;track.style.scrollSnapType='';track.style.scrollBehavior='';go(si+(dx<-40?1:dx>40?-1:0))});
   new IntersectionObserver(es=>es.forEach(e=>{c._visible=e.isIntersecting;if(e.isIntersecting&&active>=0)hint(slides[active].querySelector('.ba'))}),{threshold:.5}).observe(c);
   update();
 });

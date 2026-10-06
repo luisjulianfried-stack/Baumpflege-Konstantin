@@ -3,22 +3,29 @@ const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecti
 document.querySelectorAll('.service-list li,.quotes blockquote,.stats div').forEach(el=>{const i=[...el.parentNode.children].indexOf(el);el.style.transitionDelay=(i%2*0.08+Math.floor(i/2)*0.06)+'s'});
 document.querySelectorAll('.reveal,.reveal-img').forEach(el=>io.observe(el));
 // Startanimation, sobald Schrift und erstes Bild bereit sind
-const start=()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading'));
-Promise.race([Promise.all([document.fonts?document.fonts.ready:0,new Promise(r=>{const i=document.querySelector('.ba img');if(!i||i.complete)r();else{i.onload=r;i.onerror=r}})]),new Promise(r=>setTimeout(r,1400))]).then(start);
+const pre=document.querySelector('.preloader');let firstVisit=true;
+try{firstVisit=!sessionStorage.getItem('bk-visited');sessionStorage.setItem('bk-visited','1')}catch(e){}
+if(!firstVisit||matchMedia('(prefers-reduced-motion: reduce)').matches)pre?.classList.add('is-gone');
+const reveal=()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading'));
+const start=()=>{if(!pre||pre.classList.contains('is-gone'))return reveal();
+  // Begrüßung: Logo und Name, dann hebt sich der Vorhang und die Startseite baut sich auf
+  const wait=Math.max(0,1900-performance.now());
+  setTimeout(()=>{pre.classList.add('is-done');setTimeout(reveal,380);setTimeout(()=>pre.classList.add('is-gone'),1200)},wait)};
+Promise.race([Promise.all([document.fonts?document.fonts.ready:0,new Promise(r=>{const i=document.querySelector('.ba img');if(!i||i.complete)r();else{i.onload=r;i.onerror=r}})]),new Promise(r=>setTimeout(r,2600))]).then(start);
 // Header: dunkle Variante auf dunklem Grund, beim Runterscrollen ausblenden
-const header=document.querySelector('.nav-wrap');const darkSecs=[...document.querySelectorAll('.opening,.dark-section,.image-band')];let lastY=scrollY;
+const header=document.querySelector('.nav-wrap');const navLinks=[...document.querySelectorAll('.main-nav a')];const darkSecs=[...document.querySelectorAll('.opening,.dark-section,.image-band')];let lastY=scrollY;
 const onScroll=()=>{const y=scrollY;const mid=header.getBoundingClientRect().bottom/2+10;
   header.classList.toggle('on-dark',darkSecs.some(s=>{const r=s.getBoundingClientRect();return r.top<=mid&&r.bottom>=mid}));
-  const nav=document.querySelector('.nav-wrap nav');const open=nav&&nav.style.display==='flex';
-  header.classList.toggle('is-hidden',!open&&y>lastY&&y>200);lastY=y;
+  if(y>lastY&&y>260)header.classList.add('is-hidden');else if(y<lastY||y<=260)header.classList.remove('is-hidden');lastY=y;
+  header.classList.toggle('is-scrolled',y>30);
+  // Aktiven Menüpunkt markieren
+  let cur=null;navLinks.forEach(a=>{const sec=document.querySelector(a.hash);if(sec&&sec.getBoundingClientRect().top<=innerHeight*.4)cur=a});navLinks.forEach(a=>a.classList.toggle('is-active',a===cur));
   // Parallaxe im Bildband
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('.image-band img').forEach(img=>{const r=img.parentNode.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight){const p=(r.top+r.height/2-innerHeight/2)/innerHeight;img.style.transform=`translateY(${p*-9}%)`}});};
 addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});onScroll();
 // Zahlen hochzählen
 const countIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;countIO.unobserve(e.target);const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'',t0=performance.now();const tick=n=>{const p=Math.min(1,(n-t0)/1600),v=Math.round(end*(1-Math.pow(1-p,4)));el.textContent=v+suf;if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
-const menu=document.querySelector('.menu');
-menu?.addEventListener('click',()=>{const nav=document.querySelector('.nav-wrap nav'); if(!nav)return; const open=nav.style.display==='flex'; nav.style.display=open?'none':'flex'; nav.style.position='absolute'; nav.style.top='78px'; nav.style.left='0'; nav.style.right='0'; nav.style.padding='24px'; nav.style.background='rgba(243,240,231,.98)'; nav.style.color='var(--ink)'; nav.style.flexDirection='column';});
 
 // Vorher / Nachher: Regler ziehen, Slides wischen
 document.querySelectorAll('.ba').forEach(ba=>{

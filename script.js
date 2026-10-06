@@ -1,7 +1,10 @@
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
 // Gestaffelte Auftritte in Listen
 document.querySelectorAll('.service-list li,.quotes blockquote,.stats div').forEach(el=>{const i=[...el.parentNode.children].indexOf(el);el.style.transitionDelay=(i%2*0.08+Math.floor(i/2)*0.06)+'s'});
-document.querySelectorAll('.reveal,.reveal-img,.reveal-tree').forEach(el=>io.observe(el));
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// Bilder mit clip-path sind anfangs unsichtbar und melden keine Überschneidung, daher das Elternelement beobachten
+const imgIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll(':scope>.reveal-img').forEach(el=>el.classList.add('in'));imgIO.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal-img').forEach(el=>imgIO.observe(el.parentElement));
 // Startanimation, sobald Schrift und erstes Bild bereit sind
 const pre=document.querySelector('.preloader');let firstVisit=true;
 try{firstVisit=!sessionStorage.getItem('bk-visited');sessionStorage.setItem('bk-visited','1')}catch(e){}

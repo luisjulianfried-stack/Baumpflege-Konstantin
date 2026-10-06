@@ -14,3 +14,7 @@
 | leistung-entsorgung.jpg | Leistungskarte 08 | 4:3 |
 
 Solange eine Datei fehlt, zeigt die Fläche einen grünen Verlauf.
+
+## Vorher / Nachher (Sektion 04, Stand 2026-10-06)
+vn-<name>-vorher.jpg / vn-<name>-nachher.jpg, 960×1280 (3:4), ohne Metadaten. Paare: eiche, konifere, hausbaum, birke.
+Neues Paar: zwei Fotos gleichen Formats hier ablegen und in index.html einen weiteren `<article class="ba-slide">` kopieren.

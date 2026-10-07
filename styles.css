@@ -210,12 +210,15 @@
 /* Über uns: echtes Foto mit ruhiger Bildführung */
 .about-photo{border-radius:2px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)}
 .about-photo-inner{position:absolute;inset:0;overflow:hidden}
-.about-photo-inner img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:saturate(.82) contrast(1.06) brightness(.94)}
+.about-photo-inner img{width:100%;height:100%;object-fit:cover;object-position:58% 30%;filter:contrast(1.04);transform-origin:60% 32%}
 .about-photo.in .about-photo-inner img{animation:kenburns 22s ease-in-out 1.6s infinite alternate}
 .about-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,34,25,0) 55%,rgba(23,34,25,.55));pointer-events:none}
 .about-photo figcaption{z-index:2;left:22px;bottom:20px;background:none;color:#f5f2e9;padding:0;font-family:var(--serif);font-size:26px;letter-spacing:0;text-transform:none;line-height:1.1}
 .about-photo figcaption span{display:block;margin-bottom:6px;font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
-@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08) translate(-1.5%,-1%)}}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
+/* Kletterfoto: Hochformat 3:4, Zoom Richtung Kletterer */
+.about-photo{aspect-ratio:3/4}
+.about-photo:before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 60% 30%,transparent 55%,rgba(23,34,25,.35));pointer-events:none}
 @media(prefers-reduced-motion:reduce){.about-photo.in .about-photo-inner img{animation:none}}
 
 /* ---------- Barrierefreiheit ---------- */

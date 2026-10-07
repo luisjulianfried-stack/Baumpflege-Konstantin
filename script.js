@@ -50,30 +50,12 @@ function hint(ba){ // kurze Animation, die zeigt, dass man den Regler ziehen kan
   const tick=now=>{const t=now-t0;let i=1;while(i<keys.length-1&&t>keys[i][0])i++;const[a0,v0]=keys[i-1],[a1,v1]=keys[i];const p=Math.min(1,Math.max(0,(t-a0)/(a1-a0)));ba._set(v0+(v1-v0)*ease(p));if(t<keys[keys.length-1][0])ba._anim=requestAnimationFrame(tick)};
   ba._anim=requestAnimationFrame(tick);
 }
+// Alle Vergleiche sichtbar: einmal kurz den Regler zeigen, mit der Maus überall ziehbar
 document.querySelectorAll('.ba-carousel').forEach(c=>{
-  const track=c.querySelector('.ba-track'),slides=[...c.querySelectorAll('.ba-slide')],dots=c.querySelector('.ba-dots'),count=c.querySelector('.ba-count'),prev=c.querySelector('.ba-prev'),next=c.querySelector('.ba-next');
-  const pad=n=>String(n).padStart(2,'0');let active=-1;
-  slides.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('role','tab');b.setAttribute('aria-label','Projekt '+(i+1));b.addEventListener('click',()=>go(i));dots.appendChild(b)});
-  const go=i=>{i=Math.max(0,Math.min(slides.length-1,i));track.scrollTo({left:slides[i].offsetLeft-slides[0].offsetLeft})};
-  const update=()=>{const x=track.scrollLeft;let i=0,best=1e9;slides.forEach((s,k)=>{const d=Math.abs(s.offsetLeft-slides[0].offsetLeft-x);if(d<best){best=d;i=k}});
-    if(track.scrollLeft+track.clientWidth>=track.scrollWidth-4)i=slides.length-1;
-    if(i===active)return;active=i;
-    slides.forEach((s,k)=>s.classList.toggle('is-active',k===i));
-    [...dots.children].forEach((d,k)=>d.setAttribute('aria-selected',k===i));
-    count.textContent=pad(i+1)+' / '+pad(slides.length);prev.disabled=i===0;next.disabled=i===slides.length-1;
-    if(c._visible)hint(slides[i].querySelector('.ba'));};
-  prev.addEventListener('click',()=>go(active-1));next.addEventListener('click',()=>go(active+1));
-  let raf;track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(update)},{passive:true});
-  // Rechts genug Platz lassen, damit auch die letzten Slides ganz nach links rasten
-  const fit=()=>{const pl=parseFloat(getComputedStyle(track).paddingLeft);track.style.paddingRight=Math.max(pl,track.clientWidth-slides[0].offsetWidth-pl)+'px'};
-  fit();addEventListener('resize',()=>{fit();active=-1;update()});
-  c.addEventListener('keydown',e=>{if(e.target.classList.contains('ba-handle'))return;if(e.key==='ArrowRight')go(active+1);if(e.key==='ArrowLeft')go(active-1)});
-  // Wischen mit der Maus (auf Touch wischt der Browser nativ)
-  let sx=null,sl=0,si=0;track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.ba-handle'))return;e.preventDefault();sx=e.clientX;sl=track.scrollLeft;si=active;track.style.scrollSnapType='none';track.style.scrollBehavior='auto'});
-  addEventListener('pointermove',e=>{if(sx!==null)track.scrollLeft=sl-(e.clientX-sx)});
-  addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;track.style.scrollSnapType='';track.style.scrollBehavior='';go(si+(dx<-40?1:dx>40?-1:0))});
-  new IntersectionObserver(es=>es.forEach(e=>{c._visible=e.isIntersecting;if(e.isIntersecting&&active>=0){const b=slides[active].querySelector('.ba');setTimeout(()=>{if(c._visible&&!document.body.classList.contains('is-loading'))hint(b);else setTimeout(()=>hint(b),1600)},1500)}}),{threshold:.5}).observe(c);
-  update();
+  const bas=[...c.querySelectorAll('.ba')];
+  bas.forEach(ba=>ba.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('.ba-handle'))return;const h=ba.querySelector('.ba-handle');cancelAnimationFrame(ba._anim);ba._hinted=true;h.setPointerCapture(e.pointerId);ba.classList.add('is-dragging');const r=ba.getBoundingClientRect();ba._set((e.clientX-r.left)/r.width*100)}));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.disconnect();const go=()=>{if(document.body.classList.contains('is-loading'))return setTimeout(go,400);bas.forEach((b,i)=>setTimeout(()=>hint(b),400+i*260))};go()}),{threshold:.35});
+  io.observe(c);
 });
 
 // Barrierefreiheit: Einstellungen umschalten und merken

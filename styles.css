@@ -318,3 +318,14 @@
 .about-coord{display:none}}
 @media(max-width:640px){.about-bg{margin:0 -24px}.about-hero .about-copy h2{font-size:58px}}
 .a11y-still .about-bg img{opacity:1!important;transform:none!important}
+
+/* Technik: gespiegelt zu Über uns, Bild links */
+.tech-hero .about-bg{right:auto;left:0}
+.tech-hero .about-bg img{object-position:50% 50%;transform-origin:50% 50%}
+.tech-hero .about-bg:after{background:linear-gradient(270deg,var(--ink) 0%,rgba(23,34,25,.9) 14%,rgba(23,34,25,.45) 40%,rgba(23,34,25,.08) 70%,rgba(23,34,25,.25) 100%),linear-gradient(180deg,var(--ink) 0%,rgba(23,34,25,0) 22%,rgba(23,34,25,0) 70%,var(--ink) 100%)}
+.tech-hero .about-inner{display:flex;justify-content:flex-end}
+.tech-hero .about-copy{max-width:600px}
+.tech-hero .about-copy h2{font-size:clamp(54px,6.2vw,100px)}
+.tech-list strong{font-size:34px}
+@media(max-width:980px){.tech-hero .about-bg{left:auto;height:70svh}.tech-hero .about-bg:after{background:linear-gradient(180deg,var(--ink) 0%,rgba(23,34,25,0) 18%,rgba(23,34,25,0) 45%,rgba(23,34,25,.75) 78%,var(--ink) 100%)}.tech-hero .about-inner{display:block;margin-top:-24svh}}
+@media(max-width:640px){.tech-hero .about-copy h2{font-size:50px}}

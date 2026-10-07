@@ -96,4 +96,4 @@ document.querySelectorAll('.ba-carousel').forEach(c=>{
   apply();
 })();
 
-(()=>{const s=document.querySelector('.about-hero');if(!s)return;const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){s.classList.add('in');io.disconnect()}}),{threshold:.12});io.observe(s)})();
+(()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.about-hero').forEach(s=>io.observe(s))})();

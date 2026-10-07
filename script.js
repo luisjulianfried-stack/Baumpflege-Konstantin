@@ -8,7 +8,7 @@ document.querySelectorAll('.reveal-img').forEach(el=>imgIO.observe(el.parentElem
 // Startanimation, sobald Schrift und erstes Bild bereit sind
 const pre=document.querySelector('.preloader');let firstVisit=true;
 try{firstVisit=!sessionStorage.getItem('bk-visited');sessionStorage.setItem('bk-visited','1')}catch(e){}
-if(!firstVisit||matchMedia('(prefers-reduced-motion: reduce)').matches)pre?.classList.add('is-gone');
+if(!firstVisit||matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('a11y-still'))pre?.classList.add('is-gone');
 const reveal=()=>requestAnimationFrame(()=>document.body.classList.remove('is-loading'));
 const start=()=>{if(!pre||pre.classList.contains('is-gone'))return reveal();
   // Begrüßung: Logo und Name, dann hebt sich der Vorhang und die Startseite baut sich auf
@@ -24,10 +24,10 @@ const onScroll=()=>{const y=scrollY;const mid=header.getBoundingClientRect().bot
   // Aktiven Menüpunkt markieren
   let cur=null;navLinks.forEach(a=>{const sec=document.querySelector(a.hash);if(sec&&sec.getBoundingClientRect().top<=innerHeight*.4)cur=a});navLinks.forEach(a=>a.classList.toggle('is-active',a===cur));
   // Parallaxe im Bildband
-  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('.image-band img').forEach(img=>{const r=img.parentNode.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight){const p=(r.top+r.height/2-innerHeight/2)/innerHeight;img.style.transform=`translateY(${p*-9}%)`}});};
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!document.documentElement.classList.contains('a11y-still'))document.querySelectorAll('.image-band img').forEach(img=>{const r=img.parentNode.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight){const p=(r.top+r.height/2-innerHeight/2)/innerHeight;img.style.transform=`translateY(${p*-9}%)`}});};
 addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});onScroll();
 // Zahlen hochzählen
-const countIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;countIO.unobserve(e.target);const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'',t0=performance.now();const tick=n=>{const p=Math.min(1,(n-t0)/1600),v=Math.round(end*(1-Math.pow(1-p,4)));el.textContent=v+suf;if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.6});
+const countIO=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;countIO.unobserve(e.target);if(document.documentElement.classList.contains('a11y-still'))return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'',t0=performance.now();const tick=n=>{const p=Math.min(1,(n-t0)/1600),v=Math.round(end*(1-Math.pow(1-p,4)));el.textContent=v+suf;if(p<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}),{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>countIO.observe(el));
 
 // Vorher / Nachher: Regler ziehen, Slides wischen
@@ -44,7 +44,7 @@ document.querySelectorAll('.ba').forEach(ba=>{
 });
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function hint(ba){ // kurze Animation, die zeigt, dass man den Regler ziehen kann
-  if(ba._hinted||reduceMotion)return;ba._hinted=true;
+  if(ba._hinted||reduceMotion||document.documentElement.classList.contains('a11y-still'))return;ba._hinted=true;
   const keys=[[0,50],[700,82],[1500,18],[2200,50]];const t0=performance.now();
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
   const tick=now=>{const t=now-t0;let i=1;while(i<keys.length-1&&t>keys[i][0])i++;const[a0,v0]=keys[i-1],[a1,v1]=keys[i];const p=Math.min(1,Math.max(0,(t-a0)/(a1-a0)));ba._set(v0+(v1-v0)*ease(p));if(t<keys[keys.length-1][0])ba._anim=requestAnimationFrame(tick)};
@@ -75,3 +75,23 @@ document.querySelectorAll('.ba-carousel').forEach(c=>{
   new IntersectionObserver(es=>es.forEach(e=>{c._visible=e.isIntersecting;if(e.isIntersecting&&active>=0){const b=slides[active].querySelector('.ba');setTimeout(()=>{if(c._visible&&!document.body.classList.contains('is-loading'))hint(b);else setTimeout(()=>hint(b),1600)},1500)}}),{threshold:.5}).observe(c);
   update();
 });
+
+// Barrierefreiheit: Einstellungen umschalten und merken
+(()=>{const root=document.documentElement,box=document.querySelector('.a11y');if(!box)return;
+  const btn=box.querySelector('.a11y-toggle'),panel=box.querySelector('.a11y-panel'),sw=[...box.querySelectorAll('[data-a11y]')];
+  let st={};try{st=JSON.parse(localStorage.getItem('bk-a11y')||'{}')}catch(e){}
+  const save=()=>{try{localStorage.setItem('bk-a11y',JSON.stringify(st))}catch(e){}};
+  const apply=()=>{sw.forEach(b=>{const on=!!st[b.dataset.a11y];b.setAttribute('aria-checked',on);root.classList.toggle('a11y-'+b.dataset.a11y,on)});
+    if(st.still){document.body.classList.remove('is-loading');document.querySelector('.preloader')?.classList.add('is-gone');document.querySelectorAll('.reveal,.reveal-img').forEach(e=>e.classList.add('in'))}};
+  sw.forEach(b=>b.addEventListener('click',()=>{st[b.dataset.a11y]=!st[b.dataset.a11y];save();apply()}));
+  box.querySelector('.a11y-reset').addEventListener('click',()=>{st={};save();apply()});
+  const open=v=>{panel.hidden=!v;btn.setAttribute('aria-expanded',v);box.dataset.open=v;if(v)sw[0].focus()};
+  btn.addEventListener('click',()=>open(panel.hidden));
+  box.querySelector('.a11y-close').addEventListener('click',()=>{open(false);btn.focus()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){open(false);btn.focus()}});
+  document.addEventListener('click',e=>{if(!panel.hidden&&!box.contains(e.target))open(false)});
+  // Bildbeschreibungen aus den Alt-Texten erzeugen
+  document.querySelectorAll('.ba-slide').forEach(sl=>{const imgs=sl.querySelectorAll('.ba img');const d=document.createElement('div');d.className='alt-pair';d.setAttribute('aria-hidden','true');imgs.forEach(i=>{const t=document.createElement('span');t.textContent=i.alt;d.appendChild(t)});sl.appendChild(d)});
+  document.querySelectorAll('.about-photo,.image-band').forEach(f=>{const i=f.querySelector('img');if(!i||!i.alt)return;const d=document.createElement('div');d.className='alt-desc';d.setAttribute('aria-hidden','true');d.textContent=i.alt;f.appendChild(d)});
+  apply();
+})();

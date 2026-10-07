@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="is-loading">
+  <a class="skip-link" href="#vorher-nachher">Zum Inhalt springen</a>
+  <script>try{var a=JSON.parse(localStorage.getItem('bk-a11y')||'{}');for(var k in a)if(a[k])document.documentElement.classList.add('a11y-'+k)}catch(e){}</script>
   <div class="preloader" aria-hidden="true">
     <div class="pl-inner">
       <span class="pl-mark"><img src="https://primary.jwwb.nl/public/u/a/l/temp-heqrodicphztsxyxnoli/logo-high.jpg?enable=upscale&enable-io=true&height=140" alt=""></span>
@@ -21,7 +23,7 @@
 
   <header class="nav-wrap">
     <a class="brand" href="#top" aria-label="Baumpflege Konstantin, zum Seitenanfang">
-      <span class="brand-mark"><img src="https://primary.jwwb.nl/public/u/a/l/temp-heqrodicphztsxyxnoli/logo-high.jpg?enable=upscale&enable-io=true&height=140" alt="Baumpflege Konstantin Logo"></span>
+      <span class="brand-mark"><img data-noalt src="https://primary.jwwb.nl/public/u/a/l/temp-heqrodicphztsxyxnoli/logo-high.jpg?enable=upscale&enable-io=true&height=140" alt=""></span>
       <span class="brand-name">Baumpflege<strong>Konstantin</strong></span>
     </a>
     <nav class="main-nav" aria-label="Hauptmenü">
@@ -36,7 +38,7 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="top" tabindex="-1">
     <section id="vorher-nachher" class="opening before-after section">
       <div class="opening-head">
         <div class="kicker light intro-fade">Baumpflege · Neuried · München &amp; Umland</div>
@@ -51,8 +53,8 @@
         <div class="ba-track" tabindex="-1">
         <article class="ba-slide">
           <div class="ba" style="--pos:50%">
-            <img src="images/vn-eiche-vorher.jpg" alt="Vorher: Eiche vor der Kronenpflege" draggable="false">
-            <img class="ba-after" src="images/vn-eiche-nachher.jpg" alt="Nachher: Eiche nach der Kronenpflege, gesund belaubt" draggable="false">
+            <img src="images/vn-eiche-vorher.jpg" alt="Vorher: kahle Eiche im Winter vor einem hellen Wohnhaus, die Krone dicht und ungeordnet verzweigt" draggable="false">
+            <img class="ba-after" src="images/vn-eiche-nachher.jpg" alt="Nachher: dieselbe Eiche voll belaubt, mit gleichmäßiger und gesunder Krone im Abendlicht" draggable="false">
             <span class="ba-tag ba-tag-before">Vorher</span><span class="ba-tag ba-tag-after">Nachher</span>
             <div class="ba-handle" role="slider" tabindex="0" aria-label="Vorher/Nachher vergleichen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span></span></div>
           </div>
@@ -60,8 +62,8 @@
         </article>
         <article class="ba-slide">
           <div class="ba" style="--pos:50%">
-            <img src="images/vn-konifere-vorher.jpg" alt="Vorher: Konifere vor der Pflege mit viel Totholz am Stamm" loading="lazy" draggable="false">
-            <img class="ba-after" src="images/vn-konifere-nachher.jpg" alt="Nachher: Konifere nach der Pflege mit freigelegtem Stamm" loading="lazy" draggable="false">
+            <img src="images/vn-konifere-vorher.jpg" alt="Vorher: hohe Konifere, deren unterer Stamm von vielen abgestorbenen, kahlen Ästen umgeben ist" loading="lazy" draggable="false">
+            <img class="ba-after" src="images/vn-konifere-nachher.jpg" alt="Nachher: dieselbe Konifere mit sauber freigelegtem Stamm, daneben Kletterseil und Leiter an der Gartenmauer" loading="lazy" draggable="false">
             <span class="ba-tag ba-tag-before">Vorher</span><span class="ba-tag ba-tag-after">Nachher</span>
             <div class="ba-handle" role="slider" tabindex="0" aria-label="Vorher/Nachher vergleichen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span></span></div>
           </div>
@@ -69,8 +71,8 @@
         </article>
         <article class="ba-slide">
           <div class="ba" style="--pos:50%">
-            <img src="images/vn-hausbaum-vorher.jpg" alt="Vorher: Baum im Garten vor dem Kronenschnitt" loading="lazy" draggable="false">
-            <img class="ba-after" src="images/vn-hausbaum-nachher.jpg" alt="Nachher: Baum im Garten nach dem Kronenschnitt" loading="lazy" draggable="false">
+            <img src="images/vn-hausbaum-vorher.jpg" alt="Vorher: großer Laubbaum im Garten eines Mehrfamilienhauses mit dichter, weit ausladender Krone" loading="lazy" draggable="false">
+            <img class="ba-after" src="images/vn-hausbaum-nachher.jpg" alt="Nachher: derselbe Laubbaum mit kompakter, ausgelichteter Krone neben dem Haus" loading="lazy" draggable="false">
             <span class="ba-tag ba-tag-before">Vorher</span><span class="ba-tag ba-tag-after">Nachher</span>
             <div class="ba-handle" role="slider" tabindex="0" aria-label="Vorher/Nachher vergleichen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span></span></div>
           </div>
@@ -78,8 +80,8 @@
         </article>
         <article class="ba-slide">
           <div class="ba" style="--pos:50%">
-            <img src="images/vn-birke-vorher.jpg" alt="Vorher: Birke vor der Kronenpflege" loading="lazy" draggable="false">
-            <img class="ba-after" src="images/vn-birke-nachher.jpg" alt="Nachher: Birke nach der Kronenpflege" loading="lazy" draggable="false">
+            <img src="images/vn-birke-vorher.jpg" alt="Vorher: Birke hinter einer Doppelgarage, die Krone lückenhaft mit vielen sichtbaren Ästen" loading="lazy" draggable="false">
+            <img class="ba-after" src="images/vn-birke-nachher.jpg" alt="Nachher: dieselbe Birke mit dichter, gleichmäßig grüner Krone hinter der Garage" loading="lazy" draggable="false">
             <span class="ba-tag ba-tag-before">Vorher</span><span class="ba-tag ba-tag-after">Nachher</span>
             <div class="ba-handle" role="slider" tabindex="0" aria-label="Vorher/Nachher vergleichen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span></span></div>
           </div>
@@ -118,7 +120,7 @@
 
     <section id="ueber-uns" class="about section dark-section">
       <div class="about-grid">
-        <figure class="about-photo reveal-img"><div class="about-photo-inner"><img src="images/vn-eiche-nachher.jpg" alt="Gesunde, gepflegte Eichenkrone im Gegenlicht" loading="lazy"></div><figcaption><span>Nach der Pflege</span>Gesunde Krone</figcaption></figure>
+        <figure class="about-photo reveal-img"><div class="about-photo-inner"><img src="images/vn-eiche-nachher.jpg" alt="Gepflegte Eiche mit gesunder, voller Krone im Gegenlicht zwischen zwei Wohnhäusern" loading="lazy"></div><figcaption><span>Nach der Pflege</span>Gesunde Krone</figcaption></figure>
         <div class="about-copy reveal"><div class="kicker light">02 · Über uns</div><h2>Handwerk.<br><em>Präzision.</em><br>Verantwortung.</h2><p>Wir sind ein Fachbetrieb für Baumpflege aus Neuried. Wir klettern selbst in die Krone, schneiden nach den Regeln der ZTV-Baumpflege und besprechen jede Maßnahme vorher persönlich mit Ihnen.</p><p>So bleibt Ihr Baum gesund und sicher, und Sie wissen immer, was passiert und warum.</p><div class="stats"><div><strong data-count="100" data-suffix="%">100%</strong><span>persönliche Beratung</span></div><div><strong>ZTV</strong><span>Baumpflege-orientiert</span></div><div><strong>360°</strong><span>Baum & Garten</span></div></div></div>
       </div>
     </section>
@@ -161,6 +163,26 @@
     <p>Professionelle Baumpflege in Neuried, München & Umgebung.</p>
     <div><a href="#top">Nach oben ↑</a></div>
   </footer>
+
+  <div class="a11y" data-open="false">
+    <button class="a11y-toggle" aria-expanded="false" aria-controls="a11y-panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true" width="22" height="22"><circle cx="12" cy="4.2" r="2.2" fill="currentColor"/><path d="M4 8.2c2.6.8 5.3 1.2 8 1.2s5.4-.4 8-1.2M12 9.4v5.2m0 0-3.6 7m3.6-7 3.6 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Barrierefrei</span>
+    </button>
+    <div class="a11y-panel" id="a11y-panel" role="dialog" aria-label="Einstellungen für Barrierefreiheit" hidden>
+      <div class="a11y-head"><strong>Barrierefreiheit</strong><button class="a11y-close" aria-label="Einstellungen schließen">✕</button></div>
+      <p class="a11y-intro">Passen Sie die Seite an Ihre Bedürfnisse an. Ihre Auswahl bleibt gespeichert.</p>
+      <ul>
+        <li><button role="switch" aria-checked="false" data-a11y="large"><span class="a11y-label">Größere Schrift<small>Texte deutlich vergrößern</small></span><span class="a11y-switch"></span></button></li>
+        <li><button role="switch" aria-checked="false" data-a11y="contrast"><span class="a11y-label">Hoher Kontrast<small>Schwarz-Weiß mit klaren Farben</small></span><span class="a11y-switch"></span></button></li>
+        <li><button role="switch" aria-checked="false" data-a11y="font"><span class="a11y-label">Gut lesbare Schrift<small>Einfache Schrift, mehr Zeilenabstand</small></span><span class="a11y-switch"></span></button></li>
+        <li><button role="switch" aria-checked="false" data-a11y="still"><span class="a11y-label">Animationen stoppen<small>Keine Bewegung auf der Seite</small></span><span class="a11y-switch"></span></button></li>
+        <li><button role="switch" aria-checked="false" data-a11y="links"><span class="a11y-label">Links hervorheben<small>Unterstrichen und deutlich markiert</small></span><span class="a11y-switch"></span></button></li>
+        <li><button role="switch" aria-checked="false" data-a11y="alt"><span class="a11y-label">Bildbeschreibungen zeigen<small>Was auf jedem Bild zu sehen ist</small></span><span class="a11y-switch"></span></button></li>
+      </ul>
+      <button class="a11y-reset">Alles zurücksetzen</button>
+    </div>
+  </div>
 <script src="script.js"></script>
 </body>
 </html>

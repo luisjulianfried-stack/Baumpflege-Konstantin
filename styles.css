@@ -217,3 +217,92 @@
 .about-photo figcaption span{display:block;margin-bottom:6px;font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08) translate(-1.5%,-1%)}}
 @media(prefers-reduced-motion:reduce){.about-photo.in .about-photo-inner img{animation:none}}
+
+/* ---------- Barrierefreiheit ---------- */
+.skip-link{position:fixed;left:16px;top:-80px;z-index:400;background:var(--ink);color:#fff;padding:12px 18px;font-weight:600;transition:top .2s}
+.skip-link:focus{top:16px}
+:focus-visible{outline:3px solid #6aa36f;outline-offset:3px}
+.a11y{position:fixed;left:20px;bottom:20px;z-index:300;font-family:var(--sans)}
+.a11y-toggle{display:flex;align-items:center;gap:10px;height:52px;padding:0 18px 0 15px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:var(--ink);color:#f5f2e9;font:600 13px var(--sans);cursor:pointer;box-shadow:0 14px 34px -12px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.19,1,.22,1),background .3s}
+.a11y-toggle:hover{transform:translateY(-2px);background:var(--forest)}
+.a11y-panel{position:absolute;left:0;bottom:64px;width:min(360px,calc(100vw - 40px));max-height:calc(100vh - 110px);overflow:auto;padding:22px;background:#f7f4ec;color:var(--ink);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 70px -20px rgba(0,0,0,.45)}
+.a11y-head{display:flex;justify-content:space-between;align-items:center}
+.a11y-head strong{font-family:var(--serif);font-weight:400;font-size:28px}
+.a11y-close{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:none;color:inherit;font-size:15px;cursor:pointer}
+.a11y-intro{margin:8px 0 14px;font-size:14px;line-height:1.5;color:#3d4a40}
+.a11y-panel ul{list-style:none;margin:0;padding:0}
+.a11y-panel li+li{border-top:1px solid var(--line)}
+.a11y-panel [role=switch]{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border:0;background:none;color:inherit;text-align:left;cursor:pointer;font:500 15px var(--sans)}
+.a11y-label small{display:block;margin-top:2px;font-size:12.5px;font-weight:400;color:#4d5a50}
+.a11y-switch{position:relative;flex-shrink:0;width:46px;height:26px;border-radius:999px;background:#cfc9bb;transition:background .3s}
+.a11y-switch:after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .3s cubic-bezier(.19,1,.22,1)}
+[aria-checked=true] .a11y-switch{background:var(--forest)}
+[aria-checked=true] .a11y-switch:after{transform:translateX(20px)}
+.a11y-reset{width:100%;margin-top:14px;height:46px;border:1px solid var(--ink);border-radius:999px;background:none;color:var(--ink);font:600 14px var(--sans);cursor:pointer}
+.a11y-reset:hover{background:var(--ink);color:#fff}
+@media(max-width:640px){.a11y{left:12px;bottom:12px}.a11y-toggle{height:48px;padding:0 14px 0 12px}}
+
+/* Größere Schrift */
+.a11y-large body{font-size:19px}
+.a11y-large :is(p,li p,summary,label,input,textarea,select,cite,.contact-info a,.contact-info span,.ba-caption p,.band-sub,.stats span,.main-nav a,.kicker,.ba-label,.ba-tag,.service-list p){font-size:clamp(18px,1.2em,24px)!important;line-height:1.55!important}
+.a11y-large :is(.kicker,.ba-label,.ba-tag,.stats span){font-size:15px!important}
+.a11y-large .main-nav a{font-size:15px!important}
+.a11y-large .a11y-panel [role=switch]{font-size:17px}
+
+/* Hoher Kontrast */
+.a11y-contrast body,.a11y-contrast .section:not(.dark-section):not(.opening),.a11y-contrast .marquee{background:#fff!important;color:#000!important}
+.a11y-contrast :is(.opening,.dark-section,footer,.image-band){background:#000!important;color:#fff!important}
+.a11y-contrast .opening:before{display:none}
+.a11y-contrast :is(p,span,small,cite,i,li,label,summary,figcaption,.kicker){opacity:1!important}
+.a11y-contrast .section:not(.dark-section):not(.opening) :is(p,span,cite,summary,label){color:#000!important}
+.a11y-contrast :is(.opening,.dark-section,footer,.image-band) :is(p,span,cite,label,a,small){color:#fff!important}
+.a11y-contrast .section:not(.dark-section):not(.opening) :is(h1,h2) em,.a11y-contrast .marquee :is(span,i){color:#14532d!important}
+.a11y-contrast :is(.opening,.dark-section,.image-band) :is(h1,h2,p) em{color:#c6f6b4!important}
+.a11y-contrast .ba-slide{opacity:1!important}
+.a11y-contrast .ba-tag-before{background:#fff!important;color:#000!important}
+.a11y-contrast .ba-tag-after{background:#000!important;color:#fff!important;outline:1px solid #fff}
+.a11y-contrast .image-band:after,.a11y-contrast .about-photo:after{background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.9))!important}
+.a11y-contrast .nav-wrap:before{opacity:1;background:#fff!important;border-color:#000}
+.a11y-contrast .nav-wrap.on-dark:before{background:#000!important;border-color:#fff}
+.a11y-contrast .nav-wrap{color:#000}.a11y-contrast .nav-wrap.on-dark{color:#fff}
+.a11y-contrast .contact-form :is(input,textarea,select){border-bottom-color:#fff!important}
+.a11y-contrast .service-list li,.a11y-contrast details{border-color:#000!important}
+
+/* Gut lesbare Schrift */
+.a11y-font :is(h1,h2,h3,blockquote,.marquee span,.stats strong,.brand-name strong,.pl-word,.ba-caption h3,.image-band-text p,.a11y-head strong){font-family:var(--sans)!important;font-style:normal!important;letter-spacing:-.01em!important;font-weight:600!important}
+.a11y-font :is(h1,h2){line-height:1.05!important}
+.a11y-font body{letter-spacing:.012em;word-spacing:.06em}
+.a11y-font :is(p,li,summary){line-height:1.75!important}
+
+/* Animationen stoppen */
+.a11y-still *,.a11y-still *:before,.a11y-still *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+.a11y-still :is(.reveal,.intro-fade){opacity:1!important;transform:none!important}
+.a11y-still .split .line>span{transform:none!important}
+.a11y-still :is(.reveal-img,.opening .ba-slide .ba){clip-path:none!important;transform:none!important}
+.a11y-still :is(.reveal-img img,.image-band img){transform:none!important}
+.a11y-still .preloader{display:none!important}
+.a11y-still .marquee-track{transform:none!important}
+.a11y-still .nav-wrap.is-hidden{transform:none!important}
+
+/* Links hervorheben */
+.a11y-links main a,.a11y-links footer a,.a11y-links .main-nav a,.a11y-links .nav-call{text-decoration:underline!important;text-decoration-thickness:2px!important;text-underline-offset:4px}
+.a11y-links :focus-visible{outline:4px solid #f5c400!important;outline-offset:3px}
+.a11y-links .btn,.a11y-links .nav-cta{box-shadow:0 0 0 3px #f5c400}
+
+/* Bildbeschreibungen */
+.alt-desc{display:none}
+.a11y-alt .alt-desc{display:block;position:absolute;left:0;right:0;bottom:0;z-index:5;padding:12px 14px;background:rgba(0,0,0,.86);color:#fff;font:500 14px/1.45 var(--sans);letter-spacing:0;text-transform:none;text-align:left}
+.a11y-alt .alt-desc:before{content:'Bildbeschreibung';display:block;margin-bottom:4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c6f6b4}
+.a11y-alt .ba .alt-desc{bottom:auto;top:auto;position:static;pointer-events:none}
+.a11y-alt .ba-slide .alt-pair{display:block;margin-top:12px;background:#000;color:#fff;font:500 14px/1.45 var(--sans);padding:12px 14px}
+.alt-pair{display:none}
+.a11y-alt .alt-pair span{display:block}.a11y-alt .alt-pair span+span{margin-top:8px}
+.a11y-alt .about-photo figcaption{display:none}
+.a11y-contrast .opening .ba-tag-before,.a11y-contrast .ba .ba-tag.ba-tag-before{background:#fff!important;color:#000!important}
+.a11y-contrast :is(.opening,.dark-section) .btn-light,.a11y-contrast .nav-wrap .nav-cta{background:#fff!important;color:#000!important}
+.a11y-contrast .stats{background:#fff!important}.a11y-contrast .stats div{background:#000!important}
+.a11y-contrast .main-nav a.is-active{background:#fff!important;color:#000!important}
+.a11y-contrast .nav-wrap:not(.on-dark) .main-nav a.is-active{background:#000!important;color:#fff!important}
+.a11y-font :is(h1,h2){overflow-wrap:break-word;hyphens:auto}
+@media(max-width:640px){.a11y-font :is(.section h2,.opening h1){font-size:42px!important}.a11y-font .contact h2{font-size:42px!important}}
+.contact-info a{overflow-wrap:anywhere}

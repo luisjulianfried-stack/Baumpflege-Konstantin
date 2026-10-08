@@ -19,7 +19,7 @@ Promise.race([Promise.all([document.fonts?document.fonts.ready:0,new Promise(r=>
 const header=document.querySelector('.nav-wrap');const navLinks=[...document.querySelectorAll('.main-nav a')];const darkSecs=[...document.querySelectorAll('.opening,.dark-section,.image-band')];let lastY=scrollY;
 const onScroll=()=>{const y=scrollY;const mid=header.getBoundingClientRect().bottom/2+10;
   header.classList.toggle('on-dark',darkSecs.some(s=>{const r=s.getBoundingClientRect();return r.top<=mid&&r.bottom>=mid}));
-  if(y>lastY&&y>260)header.classList.add('is-hidden');else if(y<lastY||y<=260)header.classList.remove('is-hidden');lastY=y;
+  lastY=y; // Menüleiste bleibt immer sichtbar
   header.classList.toggle('is-scrolled',y>30);
   // Aktiven Menüpunkt markieren
   let cur=null;navLinks.forEach(a=>{const sec=document.querySelector(a.hash);if(sec&&sec.getBoundingClientRect().top<=innerHeight*.4)cur=a});navLinks.forEach(a=>a.classList.toggle('is-active',a===cur));

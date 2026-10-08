@@ -79,3 +79,9 @@ document.querySelectorAll('.ba-carousel').forEach(c=>{
 })();
 
 (()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.about-hero,.tech').forEach(s=>io.observe(s))})();
+
+// Technik: Bild öffnet sich beim Scrollen von gerahmt zu randlos
+(()=>{const st=document.querySelector('.tech-stage');if(!st)return;const m=st.querySelector('.tech-media');
+const run=()=>{if(document.documentElement.classList.contains('a11y-still')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=st.getBoundingClientRect(),h=innerHeight;if(r.bottom<0||r.top>h)return;
+const p=Math.min(1,Math.max(0,(h-r.top)/(h*.95)));const e=1-Math.pow(1-p,2);m.style.setProperty('--i',(1-e).toFixed(4));m.style.setProperty('--py',(((r.top+r.height/2)-h/2)/h*-6).toFixed(2)+'%')};
+addEventListener('scroll',()=>requestAnimationFrame(run),{passive:true});addEventListener('resize',run);run()})();

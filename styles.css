@@ -351,3 +351,9 @@
 .a11y-still .tech-media{--i:0!important}.a11y-still .tech-media img{transform:none!important}
 @media(prefers-reduced-motion:reduce){.tech-media{--i:0!important}.tech-media img{transform:none!important}}
 .tech-head h2 em{font-weight:400;color:#b9cdb5}
+
+/* Logo in Hell-Beige (Ton wie Papier/Creme), auf dunklem Grund */
+.brand-mark,.pl-mark{position:relative}
+.brand-mark img,.on-dark .brand-mark img,.pl-mark img{filter:grayscale(1) invert(1) brightness(1.15) contrast(1.2) url(#bk-beige);mix-blend-mode:screen}
+.nav-wrap:not(.on-dark) .brand-mark{background:var(--ink);border-radius:10px;-webkit-mask-image:none;mask-image:none}
+.footer-brand img{filter:grayscale(1) invert(1) brightness(1.15) contrast(1.2) url(#bk-beige)}

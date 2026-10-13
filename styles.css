@@ -362,3 +362,6 @@
 .brand-mark,.on-dark .brand-mark,.nav-wrap:not(.on-dark) .brand-mark,.pl-mark{background:#efe7d6;border-radius:10px;-webkit-mask-image:none;mask-image:none;box-shadow:0 0 0 1px rgba(239,231,214,.35),0 6px 18px rgba(0,0,0,.18)}
 .brand-mark img,.on-dark .brand-mark img,.pl-mark img{filter:contrast(1.2) brightness(1.05) url(#bk-duo);mix-blend-mode:normal;padding:3px}
 .footer-brand img{filter:contrast(1.2) brightness(1.05) url(#bk-duo);mix-blend-mode:normal;background:#efe7d6;border-radius:8px;padding:3px}
+
+.footer-links{display:flex;flex-wrap:wrap;gap:22px;font-size:14px}.footer-links a{opacity:.8;transition:opacity .2s}.footer-links a:hover{opacity:1}
+@media(max-width:640px){footer{padding-bottom:96px}}
